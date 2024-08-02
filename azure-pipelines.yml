@@ -13,21 +13,21 @@ jobs:
 - job: Rapid7_IaC_Scanner_and_BoardPush
   displayName: 'Rapid7 IaC scanner'
   steps:
-  - script: |
+  #- script: |
       # This step illustrates how the AWS CLI can be configured in an Azure DevOps pipeline.
       # In a production environment, it's recommended to use Azure DevOps service connections
       # for AWS to manage credentials securely rather than hardcoding them in the pipeline script.
       # Below are commented-out commands showing how you might configure the AWS CLI manually
       # for educational purposes. In practice, prefer service connections for enhanced security.
 
-      aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
-      aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
-      aws configure set region eu-central-1
+      # aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
+      # aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
+      # aws configure set region eu-central-1
       
       # This echo statement serves as a placeholder to indicate that in a real scenario,
       # the AWS CLI should be configured through secure means, such as Azure DevOps service connections.
-      echo "AWS CLI is configured via service connection."
-    displayName: 'Configure AWS CLI' # Reminder: Utilize Azure DevOps service connections for secure AWS CLI configuration
+      # echo "AWS CLI is configured via service connection."
+    # displayName: 'Configure AWS CLI' # Reminder: Utilize Azure DevOps service connections for secure AWS CLI configuration
 
   - script: |      
       # Check if Terraform is already installed, and download it if necessary
