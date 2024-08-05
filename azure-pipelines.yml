@@ -77,7 +77,7 @@ jobs:
             --api-key $(API_KEY) \
             --base-url $(BASE_URL) \
             --no-verify \
-            --ics-config "ICS Demo NIST PRD Fail" \
+            --ics-config "Test configuration" \
             --log-format json \
             --report-formats all \
             --report-name results-rapid7_iac \
