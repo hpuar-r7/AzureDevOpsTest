@@ -61,6 +61,11 @@ jobs:
         displayName: "Install Mimics-binary" # Downloads and installs the Mimics tool (binary executable) for infrastructure as code (IaC) scanning
 
       - script: |
+          Current_IP=$(curl ipinfo.io/ip)
+          echo $Current_IP
+        displayName: "Install Mimics-binary" # Downloads and installs the Mimics tool (binary executable) for infrastructure as code (IaC) scanning
+
+      - script: |
           mkdir -p $(System.DefaultWorkingDirectory)/mimics-reports
           $(Agent.ToolsDirectory)/mimics scan \
             $(System.DefaultWorkingDirectory) \
