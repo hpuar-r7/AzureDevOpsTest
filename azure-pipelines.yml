@@ -12,6 +12,10 @@ variables:
 jobs:
   - job: Rapid7_IaC_Scanner_and_BoardPush
     displayName: "Rapid7 IaC scanner"
+    strategy:
+      matrix:
+        Python310:
+          python.version: "3.10"
     steps:
       #- script: |
       # This step illustrates how the AWS CLI can be configured in an Azure DevOps pipeline.
@@ -43,7 +47,7 @@ jobs:
           chmod +x terraform_temp/terraform
           mv terraform_temp/terraform /usr/local/bin/
 
-          # Initialize Terraform, create a plan, and convert it to JSON
+          # Initialize Terraform, create a plan from a *.tf file within the current directory, and convert it to JSON
           terraform init
           terraform plan -out tf.plan
           terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
@@ -54,6 +58,12 @@ jobs:
           terraform plan -out=tf.plan
           terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
         displayName: "Initialize Terraform & Create Plan" # Initializes Terraform and creates a plan. The plan is converted to JSON format for further processing
+
+      - script: |
+          python3 -m json.tool plan.json > formatted_plan.json
+          mv formatted_plan.json plan.json
+        displayName: "Format Terraform Plan to provide accurate output"
+
 
       - script: |
           wget $(mimicsDownloadUrl) -O $(Agent.ToolsDirectory)/mimics
