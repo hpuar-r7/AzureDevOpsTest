@@ -102,24 +102,24 @@ jobs:
             echo "Found SARIF file: $sarifFile"
 
             # Iterate through each result in the SARIF file, extracting relevant details
-            jq -c '.runs[].results[]' "$sarifFile" | while read -r result; do
-              ruleId=$(echo $result | jq -r '.ruleId')
-              message=$(echo $result | jq -r '.message.text')
+            jq -c '.runs[].tool.driver.rules[]' "$sarifFile" | while read -r result; do
+              ruleId=$(echo $result | jq -r '.id')
+              name=$(echo $result | jq -r '.name')
 
               # For debugging or detailed output, uncomment the following lines:
               # echo ""
               # echo "=============="
-              # echo "Processing ruleId: $ruleId, message: $message"
+              # echo "Processing ruleId: $id, message: $name"
               # echo "=============="
               # echo ""
 
               # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
-              json=$(jq -n --arg ruleId "$ruleId" --arg message "$message" '
+              json=$(jq -n --arg ruleId "$ruleId" --arg message "$name" '
                 [
                   {"op": "add", "path": "/fields/System.Title", "value": $ruleId},
-                  {"op": "add", "path": "/fields/System.Description", "value": $message},
+                  {"op": "add", "path": "/fields/System.Description", "value": $name},
                   {"op": "add", "path": "/fields/System.State", "value": "To Do"},
-                  {"op": "add", "path": "/fields/System.AreaPath", "value": "Local"}
+                  {"op": "add", "path": "/fields/System.AreaPath", "value": $project}
                 ]
               ')
 
