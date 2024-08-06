@@ -106,7 +106,7 @@ jobs:
               ruleId=$(jq -r ".ruleId" <<< $result)
               message=$(jq -r ".message.text" <<< $result)
               locations=$(jq -r '.locations[]' <<< $result)
-              title=$(jq -c --arg ruleId "$ruleId" '.runs[].tool.driver.rules[] | select(.id == $ruleId).name' /Users/ehaugh/Downloads/results-rapid7_iac.sarif)
+              title=$(jq -c --arg ruleId "$ruleId" '.runs[].tool.driver.rules[] | select(.id == $ruleId).name' "$sarifFile")
 
               # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
               json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" '
