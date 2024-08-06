@@ -19,22 +19,6 @@ jobs:
         Python310:
           python.version: "3.10"
     steps:
-      #- script: |
-      # This step illustrates how the AWS CLI can be configured in an Azure DevOps pipeline.
-      # In a production environment, it's recommended to use Azure DevOps service connections
-      # for AWS to manage credentials securely rather than hardcoding them in the pipeline script.
-      # Below are commented-out commands showing how you might configure the AWS CLI manually
-      # for educational purposes. In practice, prefer service connections for enhanced security.
-
-      # aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
-      # aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
-      # aws configure set region eu-central-1
-
-      # This echo statement serves as a placeholder to indicate that in a real scenario,
-      # the AWS CLI should be configured through secure means, such as Azure DevOps service connections.
-      # echo "AWS CLI is configured via service connection."
-      # displayName: 'Configure AWS CLI' # Reminder: Utilize Azure DevOps service connections for secure AWS CLI configuration
-
       - script: |
           # Check if Terraform is already installed, and download it if necessary
           if [ ! -f /usr/local/bin/terraform ]; then
@@ -92,26 +76,6 @@ jobs:
             --no-fail \
             --verbose
         displayName: "Scan IaC files with Mimics"
-
-      # - script: |
-      #     # Alternatively: Use Docker to run the Mimics tool for scanning. This approach uses a Docker container to
-      #     # isolate the scanning environment and dependencies. It mounts the current working directory
-      #     # into the container to allow access to the Terraform plan and output the reports to a local directory.
-      #     docker run \
-      #     -v $(System.DefaultWorkingDirectory):/data \
-      #     -e MIMICS_BASE_URL=$(BASE_URL) \
-      #     -e MIMICS_API_KEY=$(API_KEY) \
-      #     public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan /data/plan.json \
-      #     --no-verify \
-      #     --ics-config "ICS Demo NIST PRD Fail" \
-      #     --log-format json \
-      #     --report-formats all \
-      #     --report-name results-rapid7_iac \
-      #     --report-path "/data/mimics-reports" \
-      #     --save-report \
-      #     --no-fail \
-      #     --verbose
-      #   displayName: 'Scan IaC files with Mimics (Docker)'
 
       - script: |
           sudo apt-get update
