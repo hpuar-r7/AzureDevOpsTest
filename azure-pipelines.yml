@@ -115,7 +115,6 @@ jobs:
                   {"op": "add", "path": "/fields/System.Description", "value": "\($message) \n \(.properties.changes)"},
                   {"op": "add", "path": "/fields/System.State", "value": "To Do"},
                   {"op": "add", "path": "/fields/System.AreaPath", "value": "Local"},
-                  {"op": "add", "path": "/fields/System.AreaPath", "value": .properties.changes}
                 ]
               ' <<< $locations)
 
