@@ -109,15 +109,15 @@ jobs:
               For debugging or detailed output, uncomment the following lines:
               echo ""
               echo "=============="
-              echo "Processing ruleId: $id, message: $name"
+              echo "Processing ruleId: $ruleId, message: $name"
               echo "=============="
               echo ""
 
               # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
-              json=$(jq -n --arg ruleId "$ruleId" --arg message "$name" '
+              json=$(jq -n --arg id "$ruleId" --arg name "$name" '
                 [
-                  {"op": "add", "path": "/fields/System.Title", "value": $ruleId},
-                  {"op": "add", "path": "/fields/System.Description", "value": $name},
+                  {"op": "add", "path": "/fields/System.Title", "value": $name},
+                  {"op": "add", "path": "/fields/System.Description", "value": $ruleId},
                   {"op": "add", "path": "/fields/System.State", "value": "To Do"},
                   {"op": "add", "path": "/fields/System.AreaPath", "value": $project}
                 ]
