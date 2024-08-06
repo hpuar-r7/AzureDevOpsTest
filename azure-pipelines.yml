@@ -35,8 +35,6 @@ jobs:
       # echo "AWS CLI is configured via service connection."
       # displayName: 'Configure AWS CLI' # Reminder: Utilize Azure DevOps service connections for secure AWS CLI configuration
 
-      - powershell: Get-ChildItem -Path $(System.DefaultWorkingDirectory) -recurse
-
       - script: |
           # Check if Terraform is already installed, and download it if necessary
           if [ ! -f /usr/local/bin/terraform ]; then
@@ -54,14 +52,14 @@ jobs:
           # Initialize Terraform, create a plan from a *.tf file within the current directory, and convert it to JSON
           terraform init
           terraform plan -out tf.plan
-          terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
+          terraform show -json tf.plan > /plan.json
         displayName: "Install and initialize Terraform"
         workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
 
       - script: |
           terraform init
           terraform plan -out=tf.plan
-          terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
+          terraform show -json tf.plan > /plan.json
         displayName: "Initialize Terraform & Create Plan" # Initializes Terraform and creates a plan. The plan is converted to JSON format for further processing
         workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
 
