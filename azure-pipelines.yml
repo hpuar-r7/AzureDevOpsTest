@@ -117,9 +117,9 @@ jobs:
               json=$(jq -n --arg id "$ruleId" --arg name "$name" '
                 [
                   {"op": "add", "path": "/fields/System.Title", "value": $name},
-                  {"op": "add", "path": "/fields/System.Description", "value": $ruleId},
+                  {"op": "add", "path": "/fields/System.Description", "value": $id},
                   {"op": "add", "path": "/fields/System.State", "value": "To Do"},
-                  {"op": "add", "path": "/fields/System.AreaPath", "value": $project}
+                  {"op": "add", "path": "/fields/System.AreaPath", "value": "Local"}
                 ]
               ')
 
