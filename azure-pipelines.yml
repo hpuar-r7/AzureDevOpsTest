@@ -84,12 +84,12 @@ jobs:
 
       - script: |
           # Azure DevOps details - configure with your organization and project names
-          organization="Rapid7Demo"
-          project="Demo"
+          organization="ehaugh"
+          project="Local"
           pat="$(PAT)" # Ensure PAT is stored securely as a secret variable
 
           # Construct the URL for API requests, choosing the correct work item type and API version.
-          url="https://dev.azure.com/ehaugh/Local/_apis/wit/workitems/\$Issue?api-version=6.0"
+          url="https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/\$Issue?api-version=6.0"
 
           # Alternative URL for creating tasks, if needed.
           # url="https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/\$Task?api-version=6.0"
@@ -119,7 +119,7 @@ jobs:
                   {"op": "add", "path": "/fields/System.Title", "value": $ruleId},
                   {"op": "add", "path": "/fields/System.Description", "value": $message},
                   {"op": "add", "path": "/fields/System.State", "value": "To Do"},
-                  {"op": "add", "path": "/fields/System.AreaPath", "value": "Demo"}
+                  {"op": "add", "path": "/fields/System.AreaPath", "value": "Local"}
                 ]
               ')
 
