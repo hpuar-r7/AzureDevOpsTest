@@ -54,21 +54,21 @@ jobs:
           terraform plan -out tf.plan
           terraform show -json tf.plan > plan.json
         displayName: "Install and initialize Terraform"
-        workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
       - script: |
           terraform init
           terraform plan -out=tf.plan
           terraform show -json tf.plan > plan.json
         displayName: "Initialize Terraform & Create Plan" # Initializes Terraform and creates a plan. The plan is converted to JSON format for further processing
-        workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
 
       - script: |
           python3 -m json.tool plan.json > formatted_plan.json
           mv formatted_plan.json plan.json
         displayName: "Format Terraform Plan to provide accurate output"
-        workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
 
       - script: |
