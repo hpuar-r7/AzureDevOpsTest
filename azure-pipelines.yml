@@ -35,6 +35,8 @@ jobs:
       # echo "AWS CLI is configured via service connection."
       # displayName: 'Configure AWS CLI' # Reminder: Utilize Azure DevOps service connections for secure AWS CLI configuration
 
+      - powershell: "Write-Output 'System.DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)'"
+
       - script: |
           # Check if Terraform is already installed, and download it if necessary
           if [ ! -f /usr/local/bin/terraform ]; then
@@ -54,8 +56,6 @@ jobs:
           terraform plan -out tf.plan
           terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
         displayName: "Install and initialize Terraform"
-
-      - powershell: "Write-Output 'System.DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)'"
 
       - script: |
           terraform init
