@@ -64,7 +64,6 @@ jobs:
           mv formatted_plan.json plan.json
         displayName: "Format Terraform Plan to provide accurate output"
 
-
       - script: |
           wget $(mimicsDownloadUrl) -O $(Agent.ToolsDirectory)/mimics
           chmod +x $(Agent.ToolsDirectory)/mimics
