@@ -89,7 +89,7 @@ jobs:
           pat="$(PAT)" # Ensure PAT is stored securely as a secret variable
 
           # Construct the URL for API requests, choosing the correct work item type and API version.
-          url="https://dev.azure.com/ehaugh/local/_apis/wit/workitems/\$Issue?api-version=6.0"
+          url="https://dev.azure.com/ehaugh/local/_apis/wit/workitems/Issue?api-version=6.0"
 
           # Alternative URL for creating tasks, if needed.
           # url="https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/\$Task?api-version=6.0"
