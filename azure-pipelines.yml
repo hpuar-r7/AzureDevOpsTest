@@ -1,5 +1,7 @@
-trigger:
-  - "*" # Trigger the pipeline on any push to the repository
+trigger: 
+  branches:
+    include: 
+    - releases/*
 
 pool:
   vmImage: "ubuntu-latest" # Define the virtual machine image to use for the pipeline
@@ -52,6 +54,8 @@ jobs:
           terraform plan -out tf.plan
           terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
         displayName: "Install and initialize Terraform"
+
+      - powershell: "Write-Output 'System.DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)'"
 
       - script: |
           terraform init

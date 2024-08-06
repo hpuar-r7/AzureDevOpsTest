@@ -1,5 +1,7 @@
-trigger:
-- '*'
+trigger: 
+  branches:
+    include: 
+    - releases/*
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -39,6 +41,11 @@ jobs:
       # Create a Terraform plan
       terraform plan -out tf.plan
     displayName: 'Create Terraform Plan'
+
+  - script: |
+      python3 -m json.tool plan.json > formatted_plan.json
+      mv formatted_plan.json plan.json
+    displayName: "Format Terraform Plan to provide accurate output"
 
   - script: |
       # Convert the Terraform plan to JSON
