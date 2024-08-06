@@ -56,17 +56,22 @@ jobs:
           terraform plan -out tf.plan
           terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
         displayName: "Install and initialize Terraform"
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
 
       - script: |
           terraform init
           terraform plan -out=tf.plan
           terraform show -json tf.plan > $(System.DefaultWorkingDirectory)/plan.json
         displayName: "Initialize Terraform & Create Plan" # Initializes Terraform and creates a plan. The plan is converted to JSON format for further processing
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
+
 
       - script: |
           python3 -m json.tool plan.json > formatted_plan.json
           mv formatted_plan.json plan.json
         displayName: "Format Terraform Plan to provide accurate output"
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IacTemplateDirPath)
+
 
       - script: |
           wget $(mimicsDownloadUrl) -O $(Agent.ToolsDirectory)/mimics
@@ -76,7 +81,7 @@ jobs:
       - script: |
           mkdir -p $(System.DefaultWorkingDirectory)/mimics-reports
           $(Agent.ToolsDirectory)/mimics scan \
-            $(System.DefaultWorkingDirectory) \
+            $(System.DefaultWorkingDirectory)$(IacTemplateeDirPath) \
             --api-key $(API_KEY) \
             --base-url $(BASE_URL) \
             --no-verify \
