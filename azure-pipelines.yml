@@ -106,12 +106,12 @@ jobs:
               ruleId=$(echo $result | jq -r '.id')
               name=$(echo $result | jq -r '.name')
 
-              # For debugging or detailed output, uncomment the following lines:
-              # echo ""
-              # echo "=============="
-              # echo "Processing ruleId: $id, message: $name"
-              # echo "=============="
-              # echo ""
+              For debugging or detailed output, uncomment the following lines:
+              echo ""
+              echo "=============="
+              echo "Processing ruleId: $id, message: $name"
+              echo "=============="
+              echo ""
 
               # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
               json=$(jq -n --arg ruleId "$ruleId" --arg message "$name" '
