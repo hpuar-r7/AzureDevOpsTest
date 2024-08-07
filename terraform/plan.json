@@ -1,0 +1,590 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.9.2",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_docdb_cluster.test_docdb_cluster",
+          "mode": "managed",
+          "type": "aws_docdb_cluster",
+          "name": "test_docdb_cluster",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "allow_major_version_upgrade": null,
+            "apply_immediately": null,
+            "availability_zones": ["us-west-2a", "us-west-2b", "us-west-2c"],
+            "backup_retention_period": 1,
+            "cluster_identifier": "docdb-cluster-demo",
+            "deletion_protection": null,
+            "enabled_cloudwatch_logs_exports": null,
+            "engine": "docdb",
+            "final_snapshot_identifier": null,
+            "global_cluster_identifier": null,
+            "master_password": null,
+            "port": 27017,
+            "restore_to_point_in_time": [],
+            "skip_final_snapshot": false,
+            "snapshot_identifier": null,
+            "storage_encrypted": null,
+            "storage_type": null,
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": {
+            "availability_zones": [false, false, false],
+            "cluster_members": [],
+            "master_password": true,
+            "restore_to_point_in_time": [],
+            "tags_all": {},
+            "vpc_security_group_ids": []
+          }
+        },
+        {
+          "address": "aws_docdb_cluster_instance.test_docdb_instance[0]",
+          "mode": "managed",
+          "type": "aws_docdb_cluster_instance",
+          "name": "test_docdb_instance",
+          "index": 0,
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "apply_immediately": null,
+            "auto_minor_version_upgrade": true,
+            "copy_tags_to_snapshot": null,
+            "enable_performance_insights": null,
+            "engine": "docdb",
+            "instance_class": "db.r5.large",
+            "promotion_tier": 0,
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": { "tags_all": {} }
+        },
+        {
+          "address": "aws_docdb_cluster_instance.test_docdb_instance[1]",
+          "mode": "managed",
+          "type": "aws_docdb_cluster_instance",
+          "name": "test_docdb_instance",
+          "index": 1,
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "apply_immediately": null,
+            "auto_minor_version_upgrade": true,
+            "copy_tags_to_snapshot": null,
+            "enable_performance_insights": null,
+            "engine": "docdb",
+            "instance_class": "db.r5.large",
+            "promotion_tier": 0,
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": { "tags_all": {} }
+        },
+        {
+          "address": "aws_neptune_cluster.test_neptune_cluster",
+          "mode": "managed",
+          "type": "aws_neptune_cluster",
+          "name": "test_neptune_cluster",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "apply_immediately": true,
+            "backup_retention_period": 5,
+            "cluster_identifier": "neptune-cluster-demo",
+            "copy_tags_to_snapshot": null,
+            "deletion_protection": null,
+            "enable_cloudwatch_logs_exports": null,
+            "engine": "neptune",
+            "final_snapshot_identifier": null,
+            "global_cluster_identifier": null,
+            "iam_database_authentication_enabled": true,
+            "iam_roles": null,
+            "neptune_cluster_parameter_group_name": "default.neptune1",
+            "neptune_instance_parameter_group_name": null,
+            "port": 8182,
+            "preferred_backup_window": "07:00-09:00",
+            "replication_source_identifier": null,
+            "serverless_v2_scaling_configuration": [],
+            "skip_final_snapshot": true,
+            "snapshot_identifier": null,
+            "storage_encrypted": false,
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": {
+            "availability_zones": [],
+            "cluster_members": [],
+            "serverless_v2_scaling_configuration": [],
+            "tags_all": {},
+            "vpc_security_group_ids": []
+          }
+        },
+        {
+          "address": "aws_neptune_cluster_instance.test_neptune_instance[0]",
+          "mode": "managed",
+          "type": "aws_neptune_cluster_instance",
+          "name": "test_neptune_instance",
+          "index": 0,
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "apply_immediately": true,
+            "auto_minor_version_upgrade": true,
+            "engine": "neptune",
+            "instance_class": "db.r4.large",
+            "neptune_parameter_group_name": "default.neptune1",
+            "port": 8182,
+            "promotion_tier": 0,
+            "publicly_accessible": false,
+            "skip_final_snapshot": null,
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": { "tags_all": {} }
+        },
+        {
+          "address": "aws_neptune_cluster_instance.test_neptune_instance[1]",
+          "mode": "managed",
+          "type": "aws_neptune_cluster_instance",
+          "name": "test_neptune_instance",
+          "index": 1,
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "apply_immediately": true,
+            "auto_minor_version_upgrade": true,
+            "engine": "neptune",
+            "instance_class": "db.r4.large",
+            "neptune_parameter_group_name": "default.neptune1",
+            "port": 8182,
+            "promotion_tier": 0,
+            "publicly_accessible": false,
+            "skip_final_snapshot": null,
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": { "tags_all": {} }
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "aws_docdb_cluster.test_docdb_cluster",
+      "mode": "managed",
+      "type": "aws_docdb_cluster",
+      "name": "test_docdb_cluster",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "allow_major_version_upgrade": null,
+          "apply_immediately": null,
+          "availability_zones": ["us-west-2a", "us-west-2b", "us-west-2c"],
+          "backup_retention_period": 1,
+          "cluster_identifier": "docdb-cluster-demo",
+          "deletion_protection": null,
+          "enabled_cloudwatch_logs_exports": null,
+          "engine": "docdb",
+          "final_snapshot_identifier": null,
+          "global_cluster_identifier": null,
+          "master_password": null,
+          "port": 27017,
+          "restore_to_point_in_time": [],
+          "skip_final_snapshot": false,
+          "snapshot_identifier": null,
+          "storage_encrypted": null,
+          "storage_type": null,
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "availability_zones": [false, false, false],
+          "cluster_identifier_prefix": true,
+          "cluster_members": true,
+          "cluster_resource_id": true,
+          "db_cluster_parameter_group_name": true,
+          "db_subnet_group_name": true,
+          "endpoint": true,
+          "engine_version": true,
+          "hosted_zone_id": true,
+          "id": true,
+          "kms_key_id": true,
+          "master_username": true,
+          "preferred_backup_window": true,
+          "preferred_maintenance_window": true,
+          "reader_endpoint": true,
+          "restore_to_point_in_time": [],
+          "tags_all": true,
+          "vpc_security_group_ids": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "availability_zones": [false, false, false],
+          "cluster_members": [],
+          "master_password": true,
+          "restore_to_point_in_time": [],
+          "tags_all": {},
+          "vpc_security_group_ids": []
+        }
+      }
+    },
+    {
+      "address": "aws_docdb_cluster_instance.test_docdb_instance[0]",
+      "mode": "managed",
+      "type": "aws_docdb_cluster_instance",
+      "name": "test_docdb_instance",
+      "index": 0,
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "apply_immediately": null,
+          "auto_minor_version_upgrade": true,
+          "copy_tags_to_snapshot": null,
+          "enable_performance_insights": null,
+          "engine": "docdb",
+          "instance_class": "db.r5.large",
+          "promotion_tier": 0,
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "availability_zone": true,
+          "ca_cert_identifier": true,
+          "cluster_identifier": true,
+          "db_subnet_group_name": true,
+          "dbi_resource_id": true,
+          "endpoint": true,
+          "engine_version": true,
+          "id": true,
+          "identifier": true,
+          "identifier_prefix": true,
+          "kms_key_id": true,
+          "performance_insights_kms_key_id": true,
+          "port": true,
+          "preferred_backup_window": true,
+          "preferred_maintenance_window": true,
+          "publicly_accessible": true,
+          "storage_encrypted": true,
+          "tags_all": true,
+          "writer": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "tags_all": {} }
+      }
+    },
+    {
+      "address": "aws_docdb_cluster_instance.test_docdb_instance[1]",
+      "mode": "managed",
+      "type": "aws_docdb_cluster_instance",
+      "name": "test_docdb_instance",
+      "index": 1,
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "apply_immediately": null,
+          "auto_minor_version_upgrade": true,
+          "copy_tags_to_snapshot": null,
+          "enable_performance_insights": null,
+          "engine": "docdb",
+          "instance_class": "db.r5.large",
+          "promotion_tier": 0,
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "availability_zone": true,
+          "ca_cert_identifier": true,
+          "cluster_identifier": true,
+          "db_subnet_group_name": true,
+          "dbi_resource_id": true,
+          "endpoint": true,
+          "engine_version": true,
+          "id": true,
+          "identifier": true,
+          "identifier_prefix": true,
+          "kms_key_id": true,
+          "performance_insights_kms_key_id": true,
+          "port": true,
+          "preferred_backup_window": true,
+          "preferred_maintenance_window": true,
+          "publicly_accessible": true,
+          "storage_encrypted": true,
+          "tags_all": true,
+          "writer": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "tags_all": {} }
+      }
+    },
+    {
+      "address": "aws_neptune_cluster.test_neptune_cluster",
+      "mode": "managed",
+      "type": "aws_neptune_cluster",
+      "name": "test_neptune_cluster",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "apply_immediately": true,
+          "backup_retention_period": 5,
+          "cluster_identifier": "neptune-cluster-demo",
+          "copy_tags_to_snapshot": null,
+          "deletion_protection": null,
+          "enable_cloudwatch_logs_exports": null,
+          "engine": "neptune",
+          "final_snapshot_identifier": null,
+          "global_cluster_identifier": null,
+          "iam_database_authentication_enabled": true,
+          "iam_roles": null,
+          "neptune_cluster_parameter_group_name": "default.neptune1",
+          "neptune_instance_parameter_group_name": null,
+          "port": 8182,
+          "preferred_backup_window": "07:00-09:00",
+          "replication_source_identifier": null,
+          "serverless_v2_scaling_configuration": [],
+          "skip_final_snapshot": true,
+          "snapshot_identifier": null,
+          "storage_encrypted": false,
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "allow_major_version_upgrade": true,
+          "arn": true,
+          "availability_zones": true,
+          "cluster_identifier_prefix": true,
+          "cluster_members": true,
+          "cluster_resource_id": true,
+          "endpoint": true,
+          "engine_version": true,
+          "hosted_zone_id": true,
+          "id": true,
+          "kms_key_arn": true,
+          "neptune_subnet_group_name": true,
+          "preferred_maintenance_window": true,
+          "reader_endpoint": true,
+          "serverless_v2_scaling_configuration": [],
+          "storage_type": true,
+          "tags_all": true,
+          "vpc_security_group_ids": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "availability_zones": [],
+          "cluster_members": [],
+          "serverless_v2_scaling_configuration": [],
+          "tags_all": {},
+          "vpc_security_group_ids": []
+        }
+      }
+    },
+    {
+      "address": "aws_neptune_cluster_instance.test_neptune_instance[0]",
+      "mode": "managed",
+      "type": "aws_neptune_cluster_instance",
+      "name": "test_neptune_instance",
+      "index": 0,
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "apply_immediately": true,
+          "auto_minor_version_upgrade": true,
+          "engine": "neptune",
+          "instance_class": "db.r4.large",
+          "neptune_parameter_group_name": "default.neptune1",
+          "port": 8182,
+          "promotion_tier": 0,
+          "publicly_accessible": false,
+          "skip_final_snapshot": null,
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "address": true,
+          "arn": true,
+          "availability_zone": true,
+          "cluster_identifier": true,
+          "dbi_resource_id": true,
+          "endpoint": true,
+          "engine_version": true,
+          "id": true,
+          "identifier": true,
+          "identifier_prefix": true,
+          "kms_key_arn": true,
+          "neptune_subnet_group_name": true,
+          "preferred_backup_window": true,
+          "preferred_maintenance_window": true,
+          "storage_encrypted": true,
+          "storage_type": true,
+          "tags_all": true,
+          "writer": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "tags_all": {} }
+      }
+    },
+    {
+      "address": "aws_neptune_cluster_instance.test_neptune_instance[1]",
+      "mode": "managed",
+      "type": "aws_neptune_cluster_instance",
+      "name": "test_neptune_instance",
+      "index": 1,
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "apply_immediately": true,
+          "auto_minor_version_upgrade": true,
+          "engine": "neptune",
+          "instance_class": "db.r4.large",
+          "neptune_parameter_group_name": "default.neptune1",
+          "port": 8182,
+          "promotion_tier": 0,
+          "publicly_accessible": false,
+          "skip_final_snapshot": null,
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "address": true,
+          "arn": true,
+          "availability_zone": true,
+          "cluster_identifier": true,
+          "dbi_resource_id": true,
+          "endpoint": true,
+          "engine_version": true,
+          "id": true,
+          "identifier": true,
+          "identifier_prefix": true,
+          "kms_key_arn": true,
+          "neptune_subnet_group_name": true,
+          "preferred_backup_window": true,
+          "preferred_maintenance_window": true,
+          "storage_encrypted": true,
+          "storage_type": true,
+          "tags_all": true,
+          "writer": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "tags_all": {} }
+      }
+    }
+  ],
+  "configuration": {
+    "provider_config": {
+      "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "expressions": {
+          "access_key": { "constant_value": "mock_access_key" },
+          "region": { "constant_value": "us-east-1" },
+          "secret_key": { "constant_value": "mock_secret_key" },
+          "skip_credentials_validation": { "constant_value": true },
+          "skip_metadata_api_check": { "constant_value": true },
+          "skip_region_validation": { "constant_value": true },
+          "skip_requesting_account_id": { "constant_value": true }
+        }
+      }
+    },
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_docdb_cluster.test_docdb_cluster",
+          "mode": "managed",
+          "type": "aws_docdb_cluster",
+          "name": "test_docdb_cluster",
+          "provider_config_key": "aws",
+          "expressions": {
+            "availability_zones": {
+              "constant_value": ["us-west-2a", "us-west-2b", "us-west-2c"]
+            },
+            "cluster_identifier": { "constant_value": "docdb-cluster-demo" }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "aws_docdb_cluster_instance.test_docdb_instance",
+          "mode": "managed",
+          "type": "aws_docdb_cluster_instance",
+          "name": "test_docdb_instance",
+          "provider_config_key": "aws",
+          "expressions": {
+            "cluster_identifier": {
+              "references": [
+                "aws_docdb_cluster.test_docdb_cluster.id",
+                "aws_docdb_cluster.test_docdb_cluster"
+              ]
+            },
+            "instance_class": { "constant_value": "db.r5.large" }
+          },
+          "schema_version": 0,
+          "count_expression": { "constant_value": 2 }
+        },
+        {
+          "address": "aws_neptune_cluster.test_neptune_cluster",
+          "mode": "managed",
+          "type": "aws_neptune_cluster",
+          "name": "test_neptune_cluster",
+          "provider_config_key": "aws",
+          "expressions": {
+            "apply_immediately": { "constant_value": true },
+            "backup_retention_period": { "constant_value": 5 },
+            "cluster_identifier": { "constant_value": "neptune-cluster-demo" },
+            "engine": { "constant_value": "neptune" },
+            "iam_database_authentication_enabled": { "constant_value": true },
+            "preferred_backup_window": { "constant_value": "07:00-09:00" },
+            "skip_final_snapshot": { "constant_value": true }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "aws_neptune_cluster_instance.test_neptune_instance",
+          "mode": "managed",
+          "type": "aws_neptune_cluster_instance",
+          "name": "test_neptune_instance",
+          "provider_config_key": "aws",
+          "expressions": {
+            "apply_immediately": { "constant_value": true },
+            "cluster_identifier": {
+              "references": [
+                "aws_neptune_cluster.test_neptune_cluster.id",
+                "aws_neptune_cluster.test_neptune_cluster"
+              ]
+            },
+            "engine": { "constant_value": "neptune" },
+            "instance_class": { "constant_value": "db.r4.large" }
+          },
+          "schema_version": 0,
+          "count_expression": { "constant_value": 2 }
+        }
+      ]
+    }
+  },
+  "relevant_attributes": [
+    { "resource": "aws_docdb_cluster.test_docdb_cluster", "attribute": ["id"] },
+    {
+      "resource": "aws_neptune_cluster.test_neptune_cluster",
+      "attribute": ["id"]
+    }
+  ],
+  "timestamp": "2024-08-06T15:32:25Z",
+  "applyable": true,
+  "complete": true,
+  "errored": false
+}
