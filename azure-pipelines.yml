@@ -104,7 +104,7 @@ jobs:
               json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" '
                 [
                   {"op": "add", "path": "/fields/System.Title", "value": $title},
-                  {"op": "add", "path": "/fields/System.Description", "value": "<div>\($message)<div><div style=\"white-space: pre-line\">\(.properties.changes)<div>"},
+                  {"op": "add", "path": "/fields/System.Description", "value": "<div>\($message)</div><pre style=\"white-space: pre-line\">\(.properties.changes)</pre>"},
                   {"op": "add", "path": "/fields/System.State", "value": "To Do"},
                   {"op": "add", "path": "/fields/System.AreaPath", "value": "Local"}
                 ]
