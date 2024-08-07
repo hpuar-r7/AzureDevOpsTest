@@ -34,12 +34,7 @@ jobs:
           unzip "terraform_$(terraformVersion)_linux_amd64.zip" -d terraform_temp
           chmod +x terraform_temp/terraform
           mv terraform_temp/terraform /usr/local/bin/
-
-          # Initialize Terraform, create a plan from a *.tf file within the current directory, and convert it to JSON
-          terraform init
-          terraform plan -out tf.plan
-          terraform show -json tf.plan > plan.json
-        displayName: "Install and initialize Terraform"
+        displayName: "Install Terraform"
         workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
       - script: |
