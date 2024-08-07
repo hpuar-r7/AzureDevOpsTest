@@ -65,7 +65,7 @@ jobs:
       - script: |
           mkdir -p $(System.DefaultWorkingDirectory)/mimics-reports
           $(Agent.ToolsDirectory)/mimics scan \
-            $(System.DefaultWorkingDirectory)$(IacTemplateeDirPath)/plan.json \
+            $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)/plan.json \
             --api-key $(API_KEY) \
             --base-url $(BASE_URL) \
             --no-verify \
