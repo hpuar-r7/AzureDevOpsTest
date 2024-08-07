@@ -31,7 +31,7 @@ jobs:
           fi
 
           # Unzip and install Terraform
-          unzip terraform_0.14.11_linux_amd64.zip -d terraform_temp
+          unzip "terraform_${terraformVersion}_linux_amd64.zip" -d terraform_temp
           chmod +x terraform_temp/terraform
           mv terraform_temp/terraform /usr/local/bin/
 
