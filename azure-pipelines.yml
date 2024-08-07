@@ -7,7 +7,7 @@ pool:
   vmImage: "ubuntu-latest" # Define the virtual machine image to use for the pipeline
 
 variables:
-  terraformVersion: "0.14.11" # Define the Terraform version to ensure consistency across runs
+  terraformVersion: "1.9.2" # Define the Terraform version to ensure consistency across runs
   terraformDownloadUrl: "https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip" # URL for Terraform download
   mimicsDownloadUrl: "https://artifacts.rapid7.com/cloudsec/mimics/latest/mimics_latest_linux_amd64" # URL for Mimics download
 
