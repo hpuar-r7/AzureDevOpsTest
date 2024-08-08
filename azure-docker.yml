@@ -44,20 +44,16 @@ jobs:
       python3 -m json.tool plan.json > formatted_plan.json
       mv formatted_plan.json plan.json
     displayName: "Format Terraform Plan to provide accurate output"
-    workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
-  
-  - script: |
-      ls
-    displayName: "Print directory"
-    workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
+    workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)xw
 
   - script: |
+      mkdir -p $(System.DefaultWorkingDirectory)/data/mimics-reports
       # Use Docker to run the Mimics tool for scanning
       docker run \
       -v $(System.DefaultWorkingDirectory):/data \
       -e MIMICS_BASE_URL=$(BASE_URL) \
       -e MIMICS_API_KEY=$(API_KEY) \
-      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)/plan.json --no-verify --ics-config "Test configuration" --log-format json --report-formats all --report-name results-rapid7_iac --report-path "data/mimics-reports" --save-report --no-fail --verbose
+      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)/plan.json --no-verify --ics-config "Test configuration" --log-format json --report-formats all --report-name results-rapid7_iac --report-path "$(System.DefaultWorkingDirectory)/data/mimics-reports" --save-report --no-fail --verbose
     displayName: 'Scan IaC files with Mimics'
 
   # Publish additional files (results-rapid7_iac artifacts)
