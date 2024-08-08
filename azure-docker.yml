@@ -76,6 +76,7 @@ jobs:
 
   # Publish the HTML report using the PublishHtmlReport task
   - task: PublishHtmlReport@1
+    displayName: 'Publish HTML Report'
     condition: succeededOrFailed()
     inputs:
       reportDir: $(System.DefaultWorkingDirectory)/data/mimics-reports/results-rapid7_iac.html
