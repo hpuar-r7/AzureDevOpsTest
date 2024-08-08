@@ -32,7 +32,7 @@ jobs:
       mv terraform_temp/terraform /usr/local/bin/
     displayName: 'Install and initialize Terraform'
 
-  - script |
+  - script: |
       # Initialize Terraform, create a plan, and convert it to JSON
       terraform init
       terraform plan -out tf.plan
