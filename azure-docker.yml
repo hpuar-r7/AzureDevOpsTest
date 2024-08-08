@@ -59,7 +59,7 @@ jobs:
 
   # Copy mimics reports from docker container to host
   - script: |
-      docker cp iac-mimics-container:data/mimics-reports $(System.DefaultWorkingDirectory)/data/mimics-reports
+      docker cp iac-mimics-container:data/mimics-reports $(System.DefaultWorkingDirectory)/data
     displayName: Copy Mimics Reports from Docker Container to Host
   
   # Publish additional files (results-rapid7_iac artifacts)
