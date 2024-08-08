@@ -47,6 +47,7 @@ jobs:
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
   - script: |
+      mkdir -p $(System.DefaultWorkingDirectory)/data/mimics-reports
       # Use Docker to run the Mimics tool for scanning
       docker run \
       -v $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH):/data \
