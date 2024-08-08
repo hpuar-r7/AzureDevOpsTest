@@ -67,5 +67,5 @@ jobs:
   - task: PublishHtmlReport@1
     condition: succeededOrFailed()
     inputs:
-      reportDir: $(System.DefaultWorkingDirectory)/mimics-reports/results-rapid7_iac.html
+      reportDir: $(System.DefaultWorkingDirectory)/data/mimics-reports/results-rapid7_iac.html
       tabName: 'R7 IaC Scan Results'
