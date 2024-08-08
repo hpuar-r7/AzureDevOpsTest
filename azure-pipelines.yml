@@ -74,6 +74,7 @@ jobs:
             --verbose
         displayName: "Scan IaC files with Mimics"
 
+      # Create Azure Devops work items for each finding produced by the IaC Mimics scan
       - script: |
           # Azure DevOps details - configure with your organization and project names
           organization="ehaugh"
