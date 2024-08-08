@@ -30,12 +30,14 @@ jobs:
       unzip terraform_0.14.11_linux_amd64.zip -d terraform_temp
       chmod +x terraform_temp/terraform
       mv terraform_temp/terraform /usr/local/bin/
+    displayName: 'Install and initialize Terraform'
 
+  - script |
       # Initialize Terraform, create a plan, and convert it to JSON
       terraform init
       terraform plan -out tf.plan
       terraform show -json tf.plan > plan.json
-    displayName: 'Install and initialize Terraform'
+    displayName: 'Generate Terraform plan and covert to JSON'
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
   - script: |
@@ -50,9 +52,8 @@ jobs:
       -v $(System.DefaultWorkingDirectory):/data \
       -e MIMICS_BASE_URL=$(BASE_URL) \
       -e MIMICS_API_KEY=$(API_KEY) \
-      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan plan.json --no-verify --ics-config "Test configuration" --log-format json --report-formats all --report-name results-rapid7_iac --report-path "data/mimics-reports" --save-report --no-fail --verbose
+      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)/plan.json --no-verify --ics-config "Test configuration" --log-format json --report-formats all --report-name results-rapid7_iac --report-path "data/mimics-reports" --save-report --no-fail --verbose
     displayName: 'Scan IaC files with Mimics'
-    workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
   # Publish additional files (results-rapid7_iac artifacts)
   - task: PublishBuildArtifacts@1
