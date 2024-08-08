@@ -53,9 +53,15 @@ jobs:
       -v $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH):/data \
       -e MIMICS_BASE_URL=$(BASE_URL) \
       -e MIMICS_API_KEY=$(API_KEY) \
-      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan /data/plan.json --no-verify --ics-config "Test configuration" --log-format json --report-formats all --report-name results-rapid7_iac --report-path "$(System.DefaultWorkingDirectory)/data/mimics-reports" --save-report --no-fail --verbose
+      --name iac-mimics-scan \
+      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan /data/plan.json --no-verify --ics-config "Test configuration" --log-format json --report-formats all --report-name results-rapid7_iac --report-path "/data/mimics-reports" --save-report --no-fail --verbose
     displayName: 'Scan IaC files with Mimics'
 
+  # Copy mimics reports from docker container to host
+  - script: |
+      docker cp iac-container:data/mimics-reports $(System.DefaultWorkingDirectory)/data/mimics-reports
+    displayName: Copy Mimics Reports from Docker Container to Host
+  
   # Publish additional files (results-rapid7_iac artifacts)
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Scan Artifacts'
