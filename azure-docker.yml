@@ -45,6 +45,11 @@ jobs:
       mv formatted_plan.json plan.json
     displayName: "Format Terraform Plan to provide accurate output"
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
+  
+  - script: |
+      ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+    displayName: "Print directory"
+    workingDirectory: $(System.DefaultWorkingDirectory)
 
   - script: |
       # Use Docker to run the Mimics tool for scanning
