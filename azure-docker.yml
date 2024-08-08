@@ -7,8 +7,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-- job: Rapid7_IaC_Scanner
-  displayName: 'Rapid7 IaC scanner'
+- job: Rapid7_Docker_IaC_Scanner
+  displayName: 'Rapid7 Docker IaC scanner'
   steps:
   - script: |
       # Configure AWS CLI with access key, secret key, and region
@@ -59,7 +59,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Scan Artifacts'
     inputs:
-      pathtoPublish: '$(System.DefaultWorkingDirectory)/mimics-reports'
+      pathtoPublish: '$(System.DefaultWorkingDirectory)/data/mimics-reports'
       artifactName: 'results-rapid7_iac'
 
   # Publish the HTML report using the PublishHtmlReport task
