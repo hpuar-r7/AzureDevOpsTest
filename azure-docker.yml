@@ -44,7 +44,7 @@ jobs:
       python3 -m json.tool plan.json > formatted_plan.json
       mv formatted_plan.json plan.json
     displayName: "Format Terraform Plan to provide accurate output"
-    workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)xw
+    workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
   - script: |
       mkdir -p $(System.DefaultWorkingDirectory)/data/mimics-reports
