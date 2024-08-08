@@ -6,6 +6,11 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+
+variables:
+  terraformVersion: "1.9.2" # Define the Terraform version to ensure consistency across runs
+  terraformDownloadUrl: "https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip" # URL for Terraform download
+
 jobs:
 - job: Rapid7_Docker_IaC_Scanner
   displayName: 'Rapid7 Docker IaC scanner'
@@ -20,10 +25,10 @@ jobs:
   - script: |      
       # Check if Terraform is already installed, and download it if necessary
       if [ ! -f /usr/local/bin/terraform ]; then
-          wget https://releases.hashicorp.com/terraform/0.14.11/terraform_0.14.11_linux_amd64.zip
+          wget $(terraformDownloadUrl)
       else
           mv /usr/local/bin/terraform /usr/local/bin/terraform.old
-          wget https://releases.hashicorp.com/terraform/0.14.11/terraform_0.14.11_linux_amd64.zip
+          wget $(terraformDownloadUrl)
       fi
       
       # Unzip and install Terraform
