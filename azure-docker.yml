@@ -112,6 +112,8 @@ jobs:
         echo "SARIF file not found: $sarifFile"
       fi
     displayName: "Process SARIF and Create Azure Board Work Items"
+    env:
+        PAT: $(PAT) # Pass the Personal Access Token (PAT) securely as an environment variable
 
   # Publish additional files (results-rapid7_iac artifacts)
   - task: PublishBuildArtifacts@1
