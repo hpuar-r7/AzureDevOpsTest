@@ -21,8 +21,8 @@ jobs:
           sudo apt-get install -y jq
         displayName: "Install jq" # Installs jq, a lightweight and flexible command-line JSON processor
 
+      # Check if Terraform is already installed, and download it if necessary
       - script: |
-          # Check if Terraform is already installed, and download it if necessary
           if [ ! -f /usr/local/bin/terraform ]; then
               wget $(terraformDownloadUrl)
           else
@@ -37,26 +37,28 @@ jobs:
         displayName: "Install Terraform"
         workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
+      # Initialize Terraform, create a plan, and convert it to JSON
       - script: |
           terraform init
           terraform plan -out=tf.plan
           terraform show -json tf.plan > plan.json
-        displayName: "Initialize Terraform & Create Plan" # Initializes Terraform and creates a plan. The plan is converted to JSON format for further processing
+        displayName: "Initialize Terraform & Create Plan"
         workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
-
+       # Format plan.json to provide position output of violating resources
       - script: |
           jq '.' ./plan.json > formatted_plan.json
           mv formatted_plan.json plan.json
         displayName: "Format Terraform Plan to provide accurate output"
         workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
-
+       # Download the IaC Scanning Tool Mimics executable
       - script: |
           wget $(mimicsDownloadUrl) -O $(Agent.ToolsDirectory)/mimics
           chmod +x $(Agent.ToolsDirectory)/mimics
         displayName: "Install Mimics-binary" # Downloads and installs the Mimics tool (binary executable) for infrastructure as code (IaC) scanning
 
+      # Use the Mimics executable to scan the plan.json
       - script: |
           mkdir -p $(System.DefaultWorkingDirectory)/mimics-reports
           $(Agent.ToolsDirectory)/mimics scan \
@@ -75,6 +77,7 @@ jobs:
         displayName: "Scan IaC files with Mimics"
 
       # Create Azure Devops work items for each finding produced by the IaC Mimics scan
+      # If you do not wish to have work items created for each scan finding, remove the below step
       - script: |
           # Azure DevOps details - configure with your organization and project names
           organization="ehaugh"

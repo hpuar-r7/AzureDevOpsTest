@@ -4,7 +4,7 @@ trigger:
     - releases/*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest' # Define the virtual machine image to use for the pipeline
 
 
 variables:
