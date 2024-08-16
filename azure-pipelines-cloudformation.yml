@@ -72,12 +72,12 @@ jobs:
               title=$(jq -c --arg ruleId "$ruleId" '.runs[].tool.driver.rules[] | select(.id == $ruleId).name' "$sarifFile")
 
               # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
-              json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" '
+              json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" --arg PROJECT $project'
                 [
                   {"op": "add", "path": "/fields/System.Title", "value": $title},
                   {"op": "add", "path": "/fields/System.Description", "value": "<div>\($message)</div><pre style=\"white-space: pre-line\">\(.properties.changes)</pre>"},
                   {"op": "add", "path": "/fields/System.State", "value": "To Do"},
-                  {"op": "add", "path": "/fields/System.AreaPath", "value": "Local"}
+                  {"op": "add", "path": "/fields/System.AreaPath", "value": "$PROJECT"}
                 ]
               ' <<< $locations)
 
