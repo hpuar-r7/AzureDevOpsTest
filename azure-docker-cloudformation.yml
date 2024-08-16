@@ -6,11 +6,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest' # Define the virtual machine image to use for the pipeline
 
-
-variables:
-  terraformVersion: "1.9.2" # Define the Terraform version to ensure consistency across runs
-  terraformDownloadUrl: "https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip" # URL for Terraform download
-
 jobs:
 - job: Rapid7_Docker_IaC_Scanner
   displayName: 'Rapid7 Docker IaC scanner'
