@@ -82,7 +82,7 @@ jobs:
               ' <<< $locations)
 
               # Make an API call to create a new work item with the prepared payload
-              curl -v -X POST -H "Content-Type: application/json-patch+json" -H "Authorization: Basic $(echo -n ":$PAT" | base64)" -d "$json" "$url"
+              curl -X POST -H "Content-Type: application/json-patch+json" -H "Authorization: Basic $(echo -n ":$PAT" | base64)" -d "$json" "$url"
             done
           else
             echo "SARIF file not found: $sarifFile"
