@@ -12,7 +12,7 @@ variables:
   terraformDownloadUrl: "https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip" # URL for Terraform download
 
 jobs:
-- job: Rapid7_Docker_IaC_Scanner
+- job: Rapid7_Docker_IaC_CloudFormation_Scanner
   displayName: 'Rapid7 Docker IaC scanner'
   steps:
 
@@ -47,7 +47,7 @@ jobs:
 
   # Format plan.json to provide position output of violating resources
   - script: |
-      python3 -m json.tool plan.json > formatted_plan.json
+      jq '.' ./plan.json > formatted_plan.json
       mv formatted_plan.json plan.json
     displayName: "Format Terraform Plan to provide accurate output"
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
@@ -75,7 +75,6 @@ jobs:
       # Azure DevOps details - configure with your organization and project names
       organization="ehaugh"
       project="Local"
-      pat="$(PAT)" # Ensure PAT is stored securely as a secret variable
 
       # Construct the URL for API requests, choosing the correct work item type and API version.
       url="https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/\$Issue?api-version=6.0"

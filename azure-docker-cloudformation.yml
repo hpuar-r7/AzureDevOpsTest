@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest' # Define the virtual machine image to use for the pipeline
 
 jobs:
-- job: Rapid7_Docker_IaC_Scanner
+- job: Rapid7_Docker_IaC_Terraform_Scanner
   displayName: 'Rapid7 Docker IaC scanner'
   steps:
 
@@ -40,7 +40,6 @@ jobs:
       # Azure DevOps details - configure with your organization and project names
       organization=$(AZURE_BOARDS_ORGANIZATION)
       project=$(AZURE_BOARDS_PROJECT)
-      pat="$(PAT)" # Ensure PAT is stored securely as a secret variable
 
       # Construct the URL for API requests, choosing the correct work item type and API version.
       url="https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/\$Issue?api-version=6.0"
