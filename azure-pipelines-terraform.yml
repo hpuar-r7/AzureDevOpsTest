@@ -30,14 +30,13 @@ jobs:
           chmod +x terraform_temp/terraform
           mv terraform_temp/terraform /usr/local/bin/
         displayName: "Install Terraform"
-        workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
       # Initialize Terraform, create a plan, and convert it to JSON
       - script: |
           terraform init
           terraform plan -out=tf.plan
           terraform show -json tf.plan > plan.json
-        displayName: "Initialize Terraform & Create Plan"
+        displayName: 'Initialize Terraform & Generate Terraform plan'
         workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
       # Format plan.json to provide position output of violating resources

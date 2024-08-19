@@ -35,14 +35,14 @@ jobs:
       unzip terraform_$(terraformVersion)_linux_amd64.zip -d terraform_temp
       chmod +x terraform_temp/terraform
       mv terraform_temp/terraform /usr/local/bin/
-    displayName: 'Install and initialize Terraform'
+    displayName: 'Install Terraform'
 
   # Initialize Terraform, create a plan, and convert it to JSON
   - script: |
       terraform init
       terraform plan -out tf.plan
       terraform show -json tf.plan > plan.json
-    displayName: 'Generate Terraform plan and covert to JSON'
+    displayName: 'Initialize Terraform & Generate Terraform plan'
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
   # Format plan.json to provide position output of violating resources
@@ -70,7 +70,6 @@ jobs:
     displayName: Copy Mimics Reports from Docker Container to Host
 
   # Create Azure Devops work items for each finding produced by the IaC Mimics scan
-  # If you do not wish to have work items created for each scan finding, remove the below step
   - script: |
       # Azure DevOps details - configure with your organization and project names
       organization="ehaugh"
