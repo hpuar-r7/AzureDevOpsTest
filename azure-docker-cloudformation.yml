@@ -38,8 +38,8 @@ jobs:
   # If you do not wish to have work items created for each scan finding, remove the below step
   - script: |
       # Azure DevOps details - configure with your organization and project names
-      organization="ehaugh"
-      project="Local"
+      organization=$(AZURE_BOARDS_ORGANIZATION)
+      project=$(AZURE_BOARDS_PROJECT)
       pat="$(PAT)" # Ensure PAT is stored securely as a secret variable
 
       # Construct the URL for API requests, choosing the correct work item type and API version.
