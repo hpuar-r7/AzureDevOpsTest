@@ -4,7 +4,7 @@ trigger:
     - releases/*
 
 pool:
-  vmImage: 'ubuntu-latest' # Define the virtual machine image to use for the pipeline
+  vmImage: "ubuntu-latest" # Define the virtual machine image to use for the pipeline
 
 
 variables:
@@ -13,14 +13,14 @@ variables:
 
 jobs:
 - job: Rapid7_Docker_IaC_CloudFormation_Scanner
-  displayName: 'Rapid7 Docker IaC scanner'
+  displayName: "Rapid7 Docker IaC scanner"
   steps:
 
   # Configure AWS CLI with access key, secret key, and region
   - script: |
       aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
       aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
-    displayName: 'Configuring AWS CLI Credentials'
+    displayName: "Configuring AWS CLI Credentials"
     
   # Check if Terraform is already installed, and download it if necessary
   - script: |      
@@ -35,19 +35,19 @@ jobs:
       unzip terraform_$(terraformVersion)_linux_amd64.zip -d terraform_temp
       chmod +x terraform_temp/terraform
       mv terraform_temp/terraform /usr/local/bin/
-    displayName: 'Install Terraform'
+    displayName: "Install Terraform"
 
   # Initialize Terraform, create a plan, and convert it to JSON
   - script: |
       terraform init
       terraform plan -out tf.plan
       terraform show -json tf.plan > plan.json
-    displayName: 'Initialize Terraform & Generate Terraform plan'
+    displayName: "Initialize Terraform & Generate Terraform plan"
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
   # Format plan.json to provide position output of violating resources
   - script: |
-      jq '.' ./plan.json > formatted_plan.json
+      jq "." ./plan.json > formatted_plan.json
       mv formatted_plan.json plan.json
     displayName: "Format Terraform Plan to provide accurate output"
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
@@ -61,7 +61,7 @@ jobs:
       -e MIMICS_API_KEY=$(ICS_API_KEY) \
       --name iac-mimics-container \
       public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan /data/plan.json --no-verify --ics-config $(IAC_CONFIG_NAME) --log-format json --report-formats all --report-name results-rapid7_iac --report-path "/data/mimics-reports" --save-report --no-fail --verbose
-    displayName: 'Scan IaC files with Mimics'
+    displayName: "Scan IaC files with Mimics"
 
   # Copy mimics reports from docker container to host
   - script: |
@@ -81,21 +81,21 @@ jobs:
         echo "Found SARIF file: $sarifFile"
 
         # Iterate through each result in the SARIF file, extracting relevant details
-        jq -c '.runs[].results[]' "$sarifFile" --arg project $(AZURE_BOARDS_PROJECT) | while read -r result; do
+        jq -c ".runs[].results[]" "$sarifFile" --arg project $(AZURE_BOARDS_PROJECT) | while read -r result; do
           ruleId=$(jq -r ".ruleId" <<< $result)
           message=$(jq -r ".message.text" <<< $result)
-          locations=$(jq -r '.locations[]' <<< $result)
-          title=$(jq -c --arg ruleId "$ruleId" '.runs[].tool.driver.rules[] | select(.id == $ruleId).name' "$sarifFile")
+          locations=$(jq -r ".locations[]" <<< $result)
+          title=$(jq -c --arg ruleId "$ruleId" ".runs[].tool.driver.rules[] | select(.id == $ruleId).name" "$sarifFile")
 
           # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
-          json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" --arg project $project '
+          json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" --arg project $project "
             [
               {"op": "add", "path": "/fields/System.Title", "value": $title},
               {"op": "add", "path": "/fields/System.Description", "value": "<div>\($message)</div><pre style=\"white-space: pre-line\">\(.properties.changes)</pre>"},
               {"op": "add", "path": "/fields/System.State", "value": "To Do"},
               {"op": "add", "path": "/fields/System.AreaPath", "value": $project}
             ]
-          ' <<< $locations)
+          " <<< $locations)
 
           # Make an API call to create a new work item with the prepared payload
           curl -X POST -H "Content-Type: application/json-patch+json" -H "Authorization: Basic $(echo -n ":$PAT" | base64)" -d "$json" "$url"
@@ -109,15 +109,15 @@ jobs:
 
   # Publish additional files (results-rapid7_iac artifacts)
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Scan Artifacts'
+    displayName: "Publish Scan Artifacts"
     inputs:
-      pathtoPublish: '$(System.DefaultWorkingDirectory)/data/mimics-reports'
-      artifactName: 'results-rapid7_iac'
+      pathtoPublish: "$(System.DefaultWorkingDirectory)/data/mimics-reports"
+      artifactName: "results-rapid7_iac"
 
   # Publish the HTML report using the PublishHtmlReport task
   - task: PublishHtmlReport@1
-    displayName: 'Publish HTML Report'
+    displayName: "Publish HTML Report"
     condition: succeededOrFailed()
     inputs:
       reportDir: $(System.DefaultWorkingDirectory)/data/mimics-reports/results-rapid7_iac.html
-      tabName: 'R7 IaC Scan Results'
+      tabName: "R7 IaC Scan Results"
