@@ -48,14 +48,14 @@ jobs:
         echo "Found SARIF file: $sarifFile"
 
         # Iterate through each result in the SARIF file, extracting relevant details
-        jq -c '.runs[].results[]' "$sarifFile" --arg project $(AZURE_BOARDS_PROJECT) | while read -r result; do
+        jq -c '.runs[].results[]' "$sarifFile" | while read -r result; do
           ruleId=$(jq -r ".ruleId" <<< $result)
           message=$(jq -r ".message.text" <<< $result)
           locations=$(jq -r '.locations[]' <<< $result)
           title=$(jq -c --arg ruleId "$ruleId" '.runs[].tool.driver.rules[] | select(.id == $ruleId).name' "$sarifFile")
 
           # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
-          json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" --arg project $project '
+          json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" --arg project "$(AZURE_BOARDS_PROJECT)" '
             [
               {"op": "add", "path": "/fields/System.Title", "value": $title},
               {"op": "add", "path": "/fields/System.Description", "value": "<div>\($message)</div><pre style=\"white-space: pre-line\">\(.properties.changes)</pre>"},
