@@ -60,7 +60,7 @@ jobs:
             --api-key $(ICS_API_KEY) \
             --base-url $(BASE_URL) \
             --no-verify \
-            --ics-config "Test configuration" \
+            --ics-config $(IAC_CONFIG_NAME) \
             --log-format json \
             --report-formats all \
             --report-name results-rapid7_iac \

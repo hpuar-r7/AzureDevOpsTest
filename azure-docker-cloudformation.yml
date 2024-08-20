@@ -26,7 +26,7 @@ jobs:
       -e MIMICS_BASE_URL=$(BASE_URL) \
       -e MIMICS_API_KEY=$(ICS_API_KEY) \
       --name iac-mimics-container \
-      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan $(IAC_TEMPLATE_DIR_PATH) --no-verify --ics-config "Test configuration" --log-format json --report-formats all --report-name results-rapid7_iac --report-path "/data/mimics-reports" --save-report --no-fail --verbose
+      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan $(IAC_TEMPLATE_DIR_PATH) --no-verify --ics-config $(IAC_CONFIG_NAME) --log-format json --report-formats all --report-name results-rapid7_iac --report-path "/data/mimics-reports" --save-report --no-fail --verbose
     displayName: 'Scan IaC files with Mimics'
 
   # Copy mimics reports from docker container to host
