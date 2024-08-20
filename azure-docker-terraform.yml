@@ -52,8 +52,9 @@ jobs:
     displayName: "Format Terraform Plan to provide accurate output"
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
-  # Scan the provided IaC Template with the IaC mimics image via Docker
+  # Scan the provided IaC Template with the IaC mimics image
   - script: |
+      mkdir -p $(System.DefaultWorkingDirectory)/data/mimics-reports
       docker run \
       -v $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH):/data \
       -e MIMICS_BASE_URL=$(BASE_URL) \
