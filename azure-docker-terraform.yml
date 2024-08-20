@@ -85,17 +85,17 @@ jobs:
           ruleId=$(jq -r ".ruleId" <<< $result)
           message=$(jq -r ".message.text" <<< $result)
           locations=$(jq -r ".locations[]" <<< $result)
-          title=$(jq -c --arg ruleId "$ruleId" ".runs[].tool.driver.rules[] | select(.id == $ruleId).name" "$sarifFile")
+          title=$(jq -c --arg ruleId "$ruleId" '.runs[].tool.driver.rules[] | select(.id == $ruleId).name' "$sarifFile")
 
           # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
-          json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" --arg project $project "
+          json=$(jq --arg ruleId "$ruleId" --arg message "$message" --arg title "$title" --arg project $project '
             [
               {"op": "add", "path": "/fields/System.Title", "value": $title},
               {"op": "add", "path": "/fields/System.Description", "value": "<div>\($message)</div><pre style=\"white-space: pre-line\">\(.properties.changes)</pre>"},
               {"op": "add", "path": "/fields/System.State", "value": "To Do"},
               {"op": "add", "path": "/fields/System.AreaPath", "value": $project}
             ]
-          " <<< $locations)
+          ' <<< $locations)
 
           # Make an API call to create a new work item with the prepared payload
           curl -X POST -H "Content-Type: application/json-patch+json" -H "Authorization: Basic $(echo -n ":$PAT" | base64)" -d "$json" "$url"
