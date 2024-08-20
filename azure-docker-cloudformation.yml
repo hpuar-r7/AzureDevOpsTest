@@ -4,18 +4,18 @@ trigger:
     - releases/*
 
 pool:
-  vmImage: 'ubuntu-latest' # Define the virtual machine image to use for the pipeline
+  vmImage: "ubuntu-latest" # Define the virtual machine image to use for the pipeline
 
 jobs:
 - job: Rapid7_Docker_IaC_Terraform_Scanner
-  displayName: 'Rapid7 Docker IaC scanner'
+  displayName: "Rapid7 Docker IaC scanner"
   steps:
 
   # Configure AWS CLI with access key, secret key, and region
   - script: |
       aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
       aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
-    displayName: 'Configuring AWS CLI Credentials'
+    displayName: "Configuring AWS CLI Credentials"
 
   # Scan the provided IaC Template with the IaC mimics image
   - script: |
@@ -27,7 +27,7 @@ jobs:
       -e MIMICS_API_KEY=$(ICS_API_KEY) \
       --name iac-mimics-container \
       public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan $(IAC_TEMPLATE_DIR_PATH) --no-verify --ics-config $(IAC_CONFIG_NAME) --log-format json --report-formats all --report-name results-rapid7_iac --report-path "/data/mimics-reports" --save-report --no-fail --verbose
-    displayName: 'Scan IaC files with Mimics'
+    displayName: "Scan IaC files with Mimics"
 
   # Copy mimics reports from docker container to host
   - script: |
@@ -76,15 +76,15 @@ jobs:
 
   # Publish additional files (results-rapid7_iac artifacts)
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Scan Artifacts'
+    displayName: "Publish Scan Artifacts"
     inputs:
-      pathtoPublish: '$(System.DefaultWorkingDirectory)/data/mimics-reports'
-      artifactName: 'results-rapid7_iac'
+      pathtoPublish: "$(System.DefaultWorkingDirectory)/data/mimics-reports"
+      artifactName: "results-rapid7_iac"
 
   # Publish the HTML report using the PublishHtmlReport task
   - task: PublishHtmlReport@1
-    displayName: 'Publish HTML Report'
+    displayName: "Publish HTML Report"
     condition: succeededOrFailed()
     inputs:
       reportDir: $(System.DefaultWorkingDirectory)/data/mimics-reports/results-rapid7_iac.html
-      tabName: 'R7 IaC Scan Results'
+      tabName: "R7 IaC Scan Results"

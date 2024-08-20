@@ -47,7 +47,7 @@ jobs:
 
   # Format plan.json to provide position output of violating resources
   - script: |
-      jq "." ./plan.json > formatted_plan.json
+      jq '.' ./plan.json > formatted_plan.json
       mv formatted_plan.json plan.json
     displayName: "Format Terraform Plan to provide accurate output"
     workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)

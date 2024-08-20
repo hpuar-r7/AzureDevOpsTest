@@ -36,12 +36,12 @@ jobs:
           terraform init
           terraform plan -out=tf.plan
           terraform show -json tf.plan > plan.json
-        displayName: 'Initialize Terraform & Generate Terraform plan'
+        displayName: "Initialize Terraform & Generate Terraform plan"
         workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
 
       # Format plan.json to provide position output of violating resources
       - script: |
-          jq '.' ./plan.json > formatted_plan.json
+          jq "." ./plan.json > formatted_plan.json
           mv formatted_plan.json plan.json
         displayName: "Format Terraform Plan to provide accurate output"
         workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
@@ -83,10 +83,10 @@ jobs:
             echo "Found SARIF file: $sarifFile"
 
             # Iterate through each result in the SARIF file, extracting relevant details
-            jq -c '.runs[].results[]' "$sarifFile" --arg project $(AZURE_BOARDS_PROJECT) | while read -r result; do
+            jq -c ".runs[].results[]" "$sarifFile" --arg project $(AZURE_BOARDS_PROJECT) | while read -r result; do
               ruleId=$(jq -r ".ruleId" <<< $result)
               message=$(jq -r ".message.text" <<< $result)
-              locations=$(jq -r '.locations[]' <<< $result)
+              locations=$(jq -r ".locations[]" <<< $result)
               title=$(jq -c --arg ruleId "$ruleId" '.runs[].tool.driver.rules[] | select(.id == $ruleId).name' "$sarifFile")
 
               # Prepare a JSON payload for creating a new work item via the Azure DevOps REST API
