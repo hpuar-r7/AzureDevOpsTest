@@ -54,13 +54,21 @@ jobs:
 
   # Scan the provided IaC Template with the IaC mimics image
   - script: |
-      mkdir -p $(System.DefaultWorkingDirectory)/data/mimics-reports
-      docker run \
-      -v $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH):/data \
-      -e MIMICS_BASE_URL=$(BASE_URL) \
-      -e MIMICS_API_KEY=$(ICS_API_KEY) \
-      --name iac-mimics-container \
-      public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan /data/plan.json --no-verify --ics-config $(IAC_CONFIG_NAME) --log-format json --report-formats all --report-name results-rapid7_iac --report-path "/data/mimics-reports" --save-report --no-fail --verbose
+      pull(){
+        mkdir -p $(System.DefaultWorkingDirectory)/data/mimics-reports
+        docker run \
+        -v $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH):/data \
+        -e MIMICS_BASE_URL=$(BASE_URL) \
+        -e MIMICS_API_KEY=$(ICS_API_KEY) \
+        --name iac-mimics-container \
+        public.ecr.aws/rapid7-insightcloudsec/ics/mimics:latest scan /data/plan.json --no-verify --ics-config $(IAC_CONFIG_NAME) --log-format json --report-formats all --report-name results-rapid7_iac --report-path "/data/mimics-reports" --save-report --no-fail --verbose
+      }
+
+      echo '1 2 3 5 8 13' | tr ' ' '\n' | while read t; do
+        pull && break
+        echo >&2 "docker pull failed; sleeping $t seconds"
+        sleep $t
+      done  
     displayName: "Scan IaC files with Mimics"
 
   # Copy mimics reports from docker container to host
