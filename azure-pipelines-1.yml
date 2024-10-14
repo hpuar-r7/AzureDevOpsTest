@@ -1,0 +1,86 @@
+trigger: 
+  branches:
+    include: 
+    - releases/*
+
+pool:
+  vmImage: "ubuntu-latest" # Define the virtual machine image to use for the pipeline
+
+variables:
+  terraformVersion: "1.9.2" # Define the Terraform version to ensure consistency across runs
+  terraformDownloadUrl: "https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip" # URL for Terraform download
+  mimicsDownloadUrl: "https://artifacts.rapid7.com/cloudsec/mimics/latest/mimics_latest_linux_amd64" # URL for Mimics download
+
+jobs:
+  - job: Rapid7_IaC_Terraform_Scanner
+    displayName: "Rapid7 IaC scanner"
+
+    steps:
+      # Check if Terraform is already installed, and download it if necessary
+      - script: |
+          if [ ! -f /usr/local/bin/terraform ]; then
+              wget $(terraformDownloadUrl)
+          else
+              mv /usr/local/bin/terraform /usr/local/bin/terraform.old
+              wget $(terraformDownloadUrl)
+          fi
+
+          # Unzip and install Terraform
+          unzip "terraform_$(terraformVersion)_linux_amd64.zip" -d terraform_temp
+          chmod +x terraform_temp/terraform
+          mv terraform_temp/terraform /usr/local/bin/
+        displayName: "Install Terraform"
+
+      # Initialize Terraform, create a plan, and convert it to JSON
+      - script: |
+          terraform init
+          terraform plan -out=tf.plan
+          terraform show -json tf.plan > plan.json
+        displayName: "Initialize Terraform & Generate Terraform plan"
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
+
+      # Format plan.json to provide position output of violating resources
+      - script: |
+          jq "." ./plan.json > formatted_plan.json
+          mv formatted_plan.json plan.json
+        displayName: "Format Terraform Plan to provide accurate output"
+        workingDirectory: $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)
+
+       # Download the IaC Scanning Tool Mimics executable
+      - script: |
+          wget $(mimicsDownloadUrl) -O $(Agent.ToolsDirectory)/mimics
+          chmod +x $(Agent.ToolsDirectory)/mimics
+        displayName: "Install Mimics-binary" # Downloads and installs the Mimics tool (binary executable) for infrastructure as code (IaC) scanning
+
+      # Use the Mimics executable to scan the plan.json
+      - script: |
+          mkdir -p $(System.DefaultWorkingDirectory)/mimics-reports
+          $(Agent.ToolsDirectory)/mimics scan \
+            $(System.DefaultWorkingDirectory)$(IAC_TEMPLATE_DIR_PATH)/plan.json \
+            --api-key $(ICS_API_KEY) \
+            --base-url $(BASE_URL) \
+            --no-verify \
+            --ics-config $(IAC_CONFIG_NAME) \
+            --log-format json \
+            --report-formats all \
+            --report-name results-rapid7_iac \
+            --report-path "$(System.DefaultWorkingDirectory)/mimics-reports" \
+            --save-report \
+            --no-fail \
+            --verbose
+        displayName: "Scan IaC files with Mimics"
+
+      # Publish additional files (results-rapid7_iac artifacts)
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Scan Artifacts"
+        inputs:
+          pathtoPublish: "$(System.DefaultWorkingDirectory)/mimics-reports"
+          artifactName: "results-rapid7_iac" # Publishes the scan reports as build artifacts for later access
+
+      # Publish the HTML report using the PublishHtmlReport task
+      - task: PublishHtmlReport@1
+        condition: succeededOrFailed()
+        inputs:
+          reportDir: $(System.DefaultWorkingDirectory)/mimics-reports/results-rapid7_iac.html
+          tabName: "R7 IaC Scan Results" # Publishes the HTML scan report to the Azure DevOps build summary for easy access
+
