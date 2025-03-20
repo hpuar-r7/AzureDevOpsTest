@@ -4,7 +4,7 @@ trigger:
     - releases/*
 
 pool:
-  vmImage: "ubuntu-latest" # Define the virtual machine image to use for the pipeline
+  vmImage: "ubuntu-24.04" # Define the virtual machine image to use for the pipeline
 
 variables:
   mimicsDownloadUrl: "https://artifacts.rapid7.com/cloudsec/mimics/latest/mimics_latest_linux_amd64" # URL for Mimics download
