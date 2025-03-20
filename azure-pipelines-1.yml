@@ -4,7 +4,7 @@ trigger:
     - releases/*
 
 pool:
-  vmImage: "ubuntu-latest" # Define the virtual machine image to use for the pipeline
+  vmImage: "ubuntu-20.04" # Define the virtual machine image to use for the pipeline
 
 variables:
   terraformVersion: "1.9.2" # Define the Terraform version to ensure consistency across runs
